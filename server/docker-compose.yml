@@ -1,0 +1,37 @@
+version: '3.1'
+services:
+
+  digitaldash:
+    image: si3mshady/streamshady:1.2 
+    ports:
+      - "80:80"
+
+    depends_on:
+    - streamdb
+
+  streamserver: 
+    image: si3mshady/streamserver:1.1
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./:/streamserver
+
+    depends_on:
+      - streamdb
+
+  streamdb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    container_name: streamdb
+    volumes:
+      - mongodata:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=elgenesis
+      - MONGO_INITDB_ROOT_PASSWORD=block
+    
+
+volumes:
+  mongodata:
+
+
